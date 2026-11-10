@@ -8,34 +8,76 @@
 
 ## 진행 현황 (2026-11-11 기준)
 
-방법론·템플릿·매핑 문서와 BM-Core 기획서는 작성을 마쳤습니다. 실제 아이템의 BM(`projects/`)은 아직 없습니다.
+방법론·템플릿·매핑 문서와 BM-Core 기획서는 작성을 마쳤습니다. 실제 아이템의 BM(`docs/business/projects/`)은 아직 없습니다.
 
 | 영역 | 현재 상태 |
 |---|---|
 | 방법론 | BM 7단계, 루브릭(5축 × 4지표 × 0~5점), 증거 등급 A~E, 판정 구간 — 작성 |
 | 캔버스 | 9블록 템플릿과 7단계 대응, BookForge 예시 — 작성 |
 | 사업계획서 매핑 | PSST(문제인식·실현가능성·성장전략·팀 구성) 대응과 증거 인용 규칙 — 작성. 공고별 양식 세부는 미확인 |
-| BM-Core SaaS 기획 | README, 01~09, CLAUDE.md — 작성(platform-docs에서 이동). SQL·개발은 기획 승인 후 |
+| BM-Core SaaS 기획 | `docs/` 기획서 11종과 `AGENTS.md` — 작성(platform-docs에서 이동). 코드 폴더는 README만. SQL·개발은 기획 승인 후 |
 | 아이템별 BM | 없음 |
 
 ### 다음 단계
-- [ ] 첫 아이템 선정 후 `/bm <아이템>`으로 `projects/<아이템>/` 생성
+- [ ] 첫 아이템 선정 후 `/bm <아이템>`으로 `docs/business/projects/<아이템>/` 생성
 - [ ] 린 검증(인터뷰·사전예약) 결과를 증거로 등록해 검증도 점수 갱신
 - [ ] 지원사업 공고가 정해지면 PSST 매핑의 양식 항목 확정
-- [ ] BM-Core 기획서 열린 결정(`product/01_PRD.md` 8장) 확정
+- [ ] BM-Core 기획서 열린 결정(`docs/PRD.md` 8장) 확정
 
 ## 콘텐츠 바로가기
 
 | 콘텐츠 | 문서 | 쓰임 |
 |---|---|---|
-| BM 7단계 방법론 | [`method/BM_METHOD.md`](method/BM_METHOD.md) | 모든 아이템의 BM 작성 기준 |
-| 비즈니스 모델 캔버스 | [`canvas/BMC_TEMPLATE.md`](canvas/BMC_TEMPLATE.md) | 9블록 작성, 7단계 결과 옮기기 |
-| 사업계획서 매핑 | [`business-plan/PSST_MAPPING.md`](business-plan/PSST_MAPPING.md) | 캔버스·계산·증거 → 사업계획서 목차 |
-| 아이템별 결과 | [`projects/`](projects/README.md) | BM.md · canvas.md · 증거 · 사업계획서 초안 |
-| BM-Core SaaS 기획서 | [`product/`](product/README.md) | PRD, 아키텍처, 화면, API, 데이터, 작업 분해, 계산 엔진, 다이어그램 16종 |
-| 원본 자료 | [`research/00_SOURCE_DESIGN.md`](research/00_SOURCE_DESIGN.md) | BM 7단계·BM-Core 설계안 정리본 |
+| BM 7단계 방법론 | [`docs/business/method/BM_METHOD.md`](docs/business/method/BM_METHOD.md) | 모든 아이템의 BM 작성 기준 |
+| 비즈니스 모델 캔버스 | [`docs/business/canvas/BMC_TEMPLATE.md`](docs/business/canvas/BMC_TEMPLATE.md) | 9블록 작성, 7단계 결과 옮기기 |
+| 사업계획서 매핑 | [`docs/business/business-plan/PSST_MAPPING.md`](docs/business/business-plan/PSST_MAPPING.md) | 캔버스·계산·증거 → 사업계획서 목차 |
+| 아이템별 결과 | [`docs/business/projects/`](docs/business/projects/README.md) | BM.md · canvas.md · 증거 · 사업계획서 초안 |
+| BM-Core SaaS 기획서 | [`docs/`](docs/README.md) | PRD, 아키텍처, 화면·디자인, API, DB, 작업 분해, 계산 엔진, 테스트 계획, 로드맵, 다이어그램 16종 |
+| 원본 자료 | [`docs/research/00_SOURCE_DESIGN.md`](docs/research/00_SOURCE_DESIGN.md) | BM 7단계·BM-Core 설계안 정리본 |
 
-전체 다이어그램 16종은 [`product/09_DIAGRAMS.md`](product/09_DIAGRAMS.md)에 있습니다.
+전체 다이어그램 16종은 [`docs/DIAGRAMS.md`](docs/DIAGRAMS.md)에 있습니다.
+
+## 저장소 구조
+
+BM-Core SaaS 모노레포 구조입니다. 코드 폴더(`apps`·`packages`·`workers`·`supabase`)에는 아직 코드가 없고, 각 폴더 README에 맡을 역할과 담당 작업이 적혀 있습니다. 개발은 기획 승인 뒤 시작합니다.
+
+```text
+BM-CORE/
+├── apps/
+│   └── web/
+│       ├── app/
+│       │   ├── (marketing)/      랜딩
+│       │   ├── (auth)/           로그인·콜백
+│       │   ├── (dashboard)/      프로젝트·Wizard·경제성·검증·스코어·보고서 화면
+│       │   └── api/v1/           Route Handler
+│       ├── components/
+│       └── features/             projects · wizard · economics · experiments · scorecards · reports
+├── packages/
+│   ├── bm-engine/                계산 엔진(순수 함수, Decimal)
+│   ├── bm-domain/                도메인 타입, Diagram Engine
+│   ├── validation/               Zod 스키마
+│   ├── ai-orchestrator/          AI 에이전트 프롬프트·출력 스키마
+│   ├── report-engine/            보고서 문서 모델
+│   └── ui/                       공용 UI 컴포넌트·디자인 토큰
+├── workers/
+│   └── jobs/                     비동기 잡
+├── supabase/
+│   ├── migrations/
+│   ├── seed.sql
+│   └── tests/
+├── docs/
+│   ├── PRD.md · ARCHITECTURE.md · DATABASE.md · API.md
+│   ├── CALCULATION_ENGINE.md · DESIGN_SYSTEM.md · TEST_PLAN.md · ROADMAP.md
+│   ├── AGENT_PLAN.md · SOURCE_MIGRATION.md · DIAGRAMS.md
+│   ├── research/                 원본 설계안
+│   └── business/                 사업계획서 재료
+│       ├── method/               BM 7단계 방법론
+│       ├── canvas/               비즈니스 모델 캔버스
+│       ├── business-plan/        PSST 매핑
+│       └── projects/             아이템별 BM 결과
+├── AGENTS.md                     개발 에이전트 지침
+└── README.md
+```
 
 ## 사업계획서 연관 구조도
 
@@ -74,7 +116,7 @@ flowchart TD
 ```
 
 ### 3. 비즈니스 모델 캔버스 구조
-캔버스 9블록의 표준 배치입니다. 블록마다 답할 질문을 함께 적었습니다. 작성 양식은 [`canvas/BMC_TEMPLATE.md`](canvas/BMC_TEMPLATE.md)에 있습니다.
+캔버스 9블록의 표준 배치입니다. 블록마다 답할 질문을 함께 적었습니다. 작성 양식은 [`docs/business/canvas/BMC_TEMPLATE.md`](docs/business/canvas/BMC_TEMPLATE.md)에 있습니다.
 
 ```mermaid
 block-beta
@@ -308,7 +350,7 @@ stateDiagram-v2
 ```
 
 ### 9. 데이터 구조
-프로젝트, 캔버스, 가설, 증거, 점수, 보고서(사업계획서 출력) 테이블의 관계입니다. 05_DATA_MODEL.md 1절 요약을 따릅니다.
+프로젝트, 캔버스, 가설, 증거, 점수, 보고서(사업계획서 출력) 테이블의 관계입니다. DATABASE.md 1절 요약을 따릅니다.
 
 ```mermaid
 erDiagram
